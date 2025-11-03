@@ -1,0 +1,19 @@
+# Run this gpunit localy by calling:
+# ant -f ${GPUNIT_HOME}/build.xml -Dgpunit.diffStripTrailingCR="--strip-trailing-cr" -Dgp.host="127.0.0.1" -Dgp.url="http://127.0.0.1:8080" -Dgp.user="edjuaro@gmail.com" -Dgp.password="" -Dgpunit.testfolder=`pwd` gpunit
+# OR using gp-beta-ami:
+# ant -f ${GPUNIT_HOME}/build.xml -Dgpunit.diffStripTrailingCR="--strip-trailing-cr" -Dgp.host="beta.genepattern.org" -Dgp.url="https://beta.genepattern.org" -Dgp.user="**USERNAME**" -Dgp.password="**PUT_PASSWORD_HERE" -Dgpunit.testfolder=`pwd` gpunit
+
+#
+# Note: this test uses a custom diff command
+#
+
+name: "tfsites.PerturbTfSiteWithoutSideEffects - Basic test"
+module: tfsites.PerturbTfSiteWithoutSideEffects
+params:
+    "DNA.sequences.to.annotate": "data/04-input_zrs-enhancer.tsv"
+    affinity.reference.data: "data/04-input_ets1-pbm.tsv" 
+    TF.name: "ETS"
+    core.binding.site.definition:  "NNGGAWNN"
+assertions:
+    jobStatus: success
+
