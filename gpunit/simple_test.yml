@@ -10,10 +10,16 @@
 name: "tfsites.PerturbTfSiteWithoutSideEffects - Basic test"
 module: tfsites.PerturbTfSiteWithoutSideEffects
 params:
-    "DNA.sequences.to.annotate": "data/04-input_zrs-enhancer.tsv"
+    "DNA.sequence.to.annotate": "AAAGATAACGGCATGCTAGATTA"
+    primary.core.binding.site.definition: "NNGATANN"
     affinity.reference.data: "data/04-input_ets1-pbm.tsv" 
-    TF.name: "ETS"
+    TF.name: "GATA"
     core.binding.site.definition:  "NNGGAWNN"
+    primary.affinity.reference.data: "data/Gata6_signal-to-noise-affinity-data.tsv"
+    primary.SNV.effect.type.to.report: "del"
+    secondary.pwm.input: "data/subset-PWMs-E9.5-Forelimb-Jaspar-Posterior.txt"
+    secondary.pwm.minimum.score: 0.8
+    secondary.minimum.binding.charge: 0.1
 assertions:
     jobStatus: success
 
