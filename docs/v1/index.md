@@ -1,6 +1,6 @@
 # tfsites.PerturbTfSiteWithoutSideEffects v1
 
-**Author(s):** Joe Solvason  
+**Author(s):** Joe Solvason, Simran Jandu 
 
 **Contact:** Joe Solvason (solvason@ucsd.edu)
 
@@ -13,89 +13,68 @@
 
 ## Introduction
 
-tfsites.PerturbTfSiteWithoutSideEffects ...
+Often researchers want to assess functionality of a TF binding site by ablating the site, or assess the role on affinity/score by optimizing or reducing the affinity/score of the site. It is important to ensure that the chosen mutation does not have any unintended side effects. For example, a mutation that ablates your site of interest could also create a binding site that didn’t exist in the original sequence. This tool enumerates all mutations that either ablate a site, optimize the affinity/score of a site, or reduce the affinity/score of a site. For each mutation, it reports any secondary effects on other TF binding sites the mutation has. The best mutation is one that has the intended effect (ablation or optimization) with minimal side effects. This module can also be used to ensure PAM deletions for CRISPR experiments do not alter existing binding sites.
 
 ## Methodology
 
-For every nucleotide in the sequence, all possible SNVs are made. For each SNV, we determine its effect, if any, on any binding sites that exist in the sequence. These are the possible effects of a SNV on a binding site: 
-- `inc`
-    - The affinity/score of the binding site increases
-    - The affinity/score fold change from the reference binding site to the alternate binding site is greater than 1
-- `dec`
-    - The affinity/score of the binding site decreases
-    - The affinity/score fold change from the reference binding site to the alternate binding site is less than 1
-- `denovo`
-    - A binding site is created
-    - The reference k-mer is not a predicted binding site (it either didn't follow the binding site definition or didn't meet the PWM minimum score threshold), but the alternate k-mer is a predicted binding site
-- `del`
-    - A binding site is deleted
-    - The reference k-mer is a predicted binding site (it either followed the binding site definition or met the PWM minimum score threshold), but the alternate k-mer is not a predicted binding site
-  
-If an affinity optimization threshold is provided by the user, then we report only the binding sites that have an increased affinity/score with a fold change greater than or equal to the threshold. Similarly, if an affinity reduction threshold is provided, then we report only the binding sites that have a decreased affinity/score with a fold change less than or equal to the threshold. 
+First, we start with annotating the effects of all possible single-nucleotide variants (SNVs) in the sequence for the primary transcription factor. Refer to **Find Tf Sites Altered By Sequence Variation** module for complete methodology. 
 
-Using the list of all identified SNV effects, an image of the sequence is generated and it displays all possible alternate nucleotides. The background of each nucleotide is colored according to the mutation type of the SNV. If the SNV has no effect, then its background is blank. If a SNV has multiple effects, then its background will be split into multiple colors. The intensity of the background color is determined by the following options: (1) magnitude of the affinity/score fold change, if the SNV effect is `inc` or `dec`, (2) magnitude of the alternate k-mer's affinity/score, if the SNV effect is `denovo`, or (3) full intensity, if the SNV effect is `del`. 
+Next, we take each SNV that produces an effect on a primary transcription factor binding site and determine whether the alternate allele affects other transcription factors. Refer to **Compare Across Seqs From Genomic Variants** module for complete methodology. 
 
-To find putative binding sites, we iterate across every k-mer in the DNA sequence. If using PBM data, we identify the k-mers that conform to the binding site definition for each transcription factor. If using PWM data, we can also use a binding site definition but it is not required. If a site definition is not provided for PWM data, we use the PWM minimum score to define a predicted binding site. The user can also choose to plot all denovo binding sites created from SNVs, in addition to existing putative binding sites. 
 
-If the user wishes to analyze only a portion of the sequence, then a zoom range can be specified. If the sequence is greater than 500 nucleotides in length, the sequence will automatically be separated into 500-bp windows and outputted as separate files. In addition, the individual files will be appended together to create a single output file with the entire sequence. The user can also choose to output the files in `.svg` format in addition to `.png`.
 
 ## Parameters
 
 <span style="color: red;">*</span> indicates required parameter
 
-### Inputs and Outputs
-- <span style="color: red;">*</span>**DNA sequence(s) to annotate (.tsv)**
-    - File containing one or more DNA sequences to be annotated. 
-- <span style="color: red;">*</span>**TF name (string)**
-    - Name of the transcription factor to use for SNV analysis.
-- **core binding site definition (string)**
+### Input
+- <span style="color: red;">*</span>**DNA sequence to annotate (.tsv)**
+    - Sequence to be annotated.
+ 
+### Primary TF Parameters
+- <span style="color: red;">*</span>**primary TF name (string)**
+    - Name of the primary transcription factor to use for SNV analysis.
+- **primary core binding site definition (string)**
     - `Default = None`
     - IUPAC definition of core TF binding site (see [here](https://www.bioinformatics.org/sms/iupac.html)). Only optional if using PWM data but required if using affinity data.
-- **affinity reference data (.tsv)**
+- **primary affinity reference data (.tsv)**
     - `Default = None`
-    - PBM affinity dataset used to assign a value to each binding site.
-- **PWM data (.txt)**
+    - Affinity dataset used to assign a value to each binding site.
+- **primary PWM data (.txt)**
     - `Default = None`
     - PWM dataset used to assign a value to each binding site.
-- **PWM minimum score (float)**
+- **primary PWM minimum score (float)**
     - `Default = 0.7`
     - PWM score required to predict a binding site.
-- <span style="color: red;">*</span>**output filename (string)**
-    - Base name of the output files.
-
-### Other Parameters
-- **output image as svg (boolean)**
-    - `Default = False`
-    - Option to output images as `.svg` in addition to `.png`. For manuscript preparation, `.svg` format is preferable.
-- **SNV effect type to report (string)**
-    - `Default = all`
+- <span style="color: red;">*</span>**SNV effect type to report (string)**
     - Specify one or more mutation types to analyze. SNV mutations can either increase (optimize) or decrease (sub-optimize) the affinity/score, delete a binding site, or create a binding site. Therefore, the possible mutation types are `inc`, `dec`, `denovo`, and `del`. This option also takes the value `all` if the user would like to analyze all of the listed mutation types.
 - **affinity optimization threshold (float)**
-    - `Default = 1`
+    - `Default = 1.25`
     - Fold change threshold for mutations that increase the affinity/score. Only SNVs with fold change above this threshold will be reported. By default, all SNVs will be reported.
 - **affinity reduction threshold (float)**
-    - `Default = 1`
+    - `Default = 1.25`
     - Fold change threshold for mutations that decrease the affinity/score. Only SNVs with fold change below this threshold will be reported. By default, all SNVs will be reported.
-- **plot resolution (integer)**
-    - `Default = 150`
-    - Resolution of the plot, in dots (pixels) per inch. Manuscripts require 300 DPI. The DPI does not affect the resolution of `.svg` files.
-- **zoom range (dash-separated string)**
+
+### Secondary TF Parameters
+- **secondary affinity information (.tsv)**
     - `Default = None`
-    - Given a start position and an end position, zoom into a portion of the sequence. The numbers in the range are inclusive and 1-indexed. For example, the first 200 nucleotides of the sequence would be specified as: 1-200.
+    - Affinity dataset used to assign a value to each binding site.
+- **secondary affinity files (.tsv)**
+    - `Default = None`
+    - Files referred to in the "secondary affinity information" file. 
+- **secondary PWM data (.txt)**
+    - `Default = None`
+    - PWM dataset used to assign a value to each binding site.
+- **secondary PWM minimum score (float)**
+    - `Default = 0.7`
+    - PWM score required to predict a binding site.
+- **secondary minimum binding change (float)**
+    - Default is `0.1`.
+    - The minimum change of affinity or PWM binding score required to classify an “increase” or “decrease.” 
 
 ## Input Files
 
-1.  DNA sequence(s) to annotate (.tsv)
-- Columns:
-    - `Sequence Name:` name of the DNA sequence
-    - `Sequence:` the sequence
- 
-```
-Sequence Name	    Sequence
-ZRS                 AACTTTAATGCCTATGTTTGATTTGAAGTCATAGCATAAAAGGTAACATAAGCAACATCCTGACCAATTATCCAAACCATCCAGACATCCCTGAATGGC...
-```
-    
-2. affinity reference data (.tsv)
+1.  primary affinity reference data (.tsv)
 
 ETS
 ```
@@ -107,48 +86,93 @@ AAAAAAAT     0.13
 AAAAAACA     0.12
 ```
 
+2.  primary PWM data (.txt)
 
-## Output Files
-1.  SNV effects output table (.tsv)
+```
+>MA1113.3	PBX2
+A  [  4925  26620    225  24368  27245  27259    704   2298  25945 ]
+C  [ 19645    629    588   2266    574    754    453  23894    848 ]
+G  [  1585   1710    317    817    343    569    327    555    352 ]
+T  [  3441    637  28466   2145   1434   1014  28112   2849   2451 ]
+```
+
+3.  secondary affinity information (.tsv)
+- Assumes header is present
 - Columns:
-    - `Sequence Name:` name of the sequence being analyzed
-    - `Kmer ID:` unique ID given to binding site
-    - `SNV Position (0-indexed):` position of the SNV
-    - `Reference Nucleotide:` reference nucleotide
-    - `Alternate Nucleotide:` alternate nucleotide
-    - `Start Position (1-indexed):` position at which the k-mer starts, where counting begins at one
-    - `End Position (1-indexed):` position at which the k-mer ends, where counting begins at one
-    - `Reference Kmer:` reference k-mer
-    - `Alternate Kmer:` alternate k-mer
-    - `Site Direction:` direction of the binding site 
-    - `Reference Value:` the affinity/score of the reference binding site
-    - `Alternate Value:` the affinity/score of the alternate binding site
-    - `Fold Change:` the ratio between `Reference Value` and `Alternate Value`
-    - `SNV Effect:` the type of SNV effect
+    - `TF Name:` name of the transcription factor
+    - `Core Site:` minimal IUPAC binding site definition for transcription factor 
+    - `Affinity Data (optional):` name of the relative affinity data file
  
 ```
-Sequence Name    TF Name     Kmer ID      Kmer                Start Position (1-indexed)    End Position (1-indexed)  Ref Data Type   Value    Site Direction   Duplicate Kmer IDs
-ZRS              ETS         ETS:1        CTATCCTG            335                           328                       Affinity        0.15     -
-ZRS              ETS         ETS:2        TTTTCCCC            432                           425                       Affinity        0.14     -                ETS:1,ETS:20
-ZRS              HOX         HOX:1        TTTAATAT            323                           316                       Affinity        0.75     -	
-ZRS              HOX         HOX:2        TTTATGAC            415                           408                       Affinity        0.84     -
-ZRS              HAND        HAND:1       CAGATG              416                           421
+TF Name    Core Site    Affinity Data
+ETS        NNGGAWNN     input_ets1-pbm.tsv
+HOX        NYNNTNAA     input_hoxa13-pbm.tsv   
+HAND       CANNTG
 ```
 
+4.  secondary affinity files (.tsv)
+- Can provide more than one file
 
-2.  SNV effects image(s) (.png)
+ETS
+```
+Kmer         Relative Affinity
+AAAAAAAA     0.15
+AAAAAAAC     0.11
+AAAAAAAG     0.13
+AAAAAAAT     0.13
+AAAAAACA     0.12
+```
 
-<img src="./04-output_visualizeInSilicoSnvs-image_seq=ZRS_tf=ETS_zoom=320-490.png"/>
+HOX
+```
+Kmer         Relative Affinity
+AAAAAAAA     0.55
+AAAAAAAC     0.56
+AAAAAAAG     0.54
+AAAAAAAT     0.54
+AAAAAACA     0.56
+```
+
+## Output Files
+1. **01-primary-effects-output** folder
+    - Contains a table of annotated SNV effects from the primary transcription factor analysis. Refer to **Find Tf Sites Altered By Sequence Variation** module for table format.
+    - Each SNV has a unique variant ID based on its position in the sequence, its reference allele, and its alternate allele 
+2. **02-secondary-effects-complete-output** folder
+    - Contains complete information about effects from secondary transcription factor analysis. Refer to **Compare Across Seqs From Genomic Variants** module for full format.
+3. **03-secondary-effects-summary output** folder
+    - SNV effect output table (.tsv)
+        - Columns:
+            - `Variant ID:` unique ID given to variant based on position, reference allele, and alternate allele
+            - `Position (1-indexed):` position of the SNV
+            - `Reference Allele:` reference nucleotide
+            - `Alternate Allele:` alternate nucleotide
+            - `Primary Effect: effect on SNV on binding site` 
+            - `Secondary GOF Count:` number of secondary binding sites that create gain-of-function (GOF) effect, which includes optimizations
+            - `Secondary LOF Count:` number of secondary binding sites that create loss-of-function (LOF) effect, which includes deletions or reductions 
+            - `Maximum Secondary GOF Change:` maximum change in affinity/score for any GOF effect
+            - `Maximum Secondary LOF Change:` maximum change in affinity/score for any LOF effect
+         
+        ```
+        Variant ID    Position (1-indexed)    Reference Allele    Alternate Allele    Primary Effect    Secondary GOF Count    Secondary LOF Count    Maximum Secondary GOF Change    Maximum Secondary LOF Change
+        08AC          8                       A                   C                   inc               10                     2                      0.2                             -0.2
+        14GC          14                      G                   C                   inc               23                     3                      0.2                             -0.15
+        14GT          14                      G                   T                   inc               28                     5                      0.2                             -0.08
+        ```
+
+    - SNV effect image(s) (.png)
+
+        Plot of GOF effects
+        <img src="./gof-secondary-effects-plot.png"/>
+        
+        Plot of LOF effects
+        <img src="./lof-secondary-effects-plot.png"/>
 
   
 ## Example Data
 
-Example input data is available [here](https://github.com/genepattern/tfsites.AnnotateAndVisualizeInSilicoSNVAnalysis/tree/develop/data).    
+Example input data is available [here](https://github.com/genepattern/tfsites.PerturbTfSiteWithoutSideEffects/tree/develop/data).    
     
 ## Version Comments
 
-- **1.0.4** (2024-11-21): Updated for tfsites website.
-- **1.0.3** (2024-10-17): Third draft completed.
-- **1.0.2** (2024-09-12): Second draft completed. Updated parameters and visualizations.
-- **1.0.1** (2024-02-02): Draft completed.
-- **1.0.0** (2023-01-12): Initial draft of document scaffold.
+- **1.0.1** (2025-11-03): Draft completed.
+- **1.0.0** (2025-11-03): Initial draft of document scaffold.
