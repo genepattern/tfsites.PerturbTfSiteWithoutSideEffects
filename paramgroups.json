@@ -4,40 +4,28 @@
         "description": "Required Parameters",
         "hidden": false,
         "parameters": [
-            "DNA.sequences.to.annotate",
+            "DNA.sequence.to.annotate",
             "TF.name",
-            "core.binding.site.definition",
- 	        "affinity.reference.data",
+            "primary.core.binding.site.definition",
+ 	        "primary.affinity.reference.data",
 	    
-            "output.filename"
+            "primary.PWM.data",
+          "primary.PWM.minimum.score",
+          "primary.SNV.effect.type.to.report",
+          "primary.affinity.optimization.threshold",
+          "primary.suboptimization.threshold"
         ]
     },
     {
-        "name": "SNV Effect Parameters",
+        "name": "Secondary Parameters",
         "description": "",
         "hidden": false,
         "parameters": [
-            "output.image.as.svg",
-            "SNV.effect.type.to.report",
-            "affinity.optimization.threshold",
-            "affinity.reduction.threshold",
-            "plot.resolution",
-	    "zoom.range"
-        ]
-    },
-     {
-        "name": "Motif Database Parameters",
-        "description": "Optional parameters for providing a motif database or generating motif database from JASPAR or HOMOCO data",
-        "hidden": false,
-        "parameters": [
-            "PWM.data",
- 	        "PWM.minimum.score",
-            "motif.input.file",
-            "motif.input.format",
-            "motif.filter.keywords",
-            "motif.use.pseudocounts",
-            "motif.background.frequencies",
-            "motif.output.name"
+            "secondary.affinity.information",
+            "secondary.affinity.files",
+            "secondary.pwm.input",
+            "secondary.pwm.minimum.score",
+            "secondary.minimum.binding.charge"
         ]
     }
 ]
