@@ -69,7 +69,7 @@ Next, we take each SNV that produces an effect on a primary transcription factor
     - `Default = 0.7`
     - PWM score required to predict a binding site.
 - **secondary minimum binding change (float)**
-    - Default is `0.1`.
+    - `Default = 0.1`
     - The minimum change of affinity or PWM binding score required to classify an “increase” or “decrease.” 
 
 ## Input Files
