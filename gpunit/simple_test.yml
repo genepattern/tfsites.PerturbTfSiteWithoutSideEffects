@@ -12,7 +12,6 @@ module: tfsites.PerturbTfSiteWithoutSideEffects
 params:
     "DNA.sequence.to.annotate": "AAAGATAACGGCATGCTAGATTA"
     primary.core.binding.site.definition: "NNGATANN"
-    affinity.reference.data: "data/04-input_ets1-pbm.tsv" 
     TF.name: "GATA"
     core.binding.site.definition:  "NNGGAWNN"
     primary.affinity.reference.data: "data/Gata6_signal-to-noise-affinity-data.tsv"
