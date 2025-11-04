@@ -12,12 +12,12 @@ module: tfsites.PerturbTfSiteWithoutSideEffects
 params:
     "DNA.sequence.to.annotate": "AAAGATAACGGCATGCTAGATTA"
     primary.core.binding.site.definition: "NNGATANN"
-    TF.name: "GATA"
+    primary.TF.name: "GATA"
     core.binding.site.definition:  "NNGGAWNN"
     primary.affinity.reference.data: "data/Gata6_signal-to-noise-affinity-data.tsv"
     primary.SNV.effect.type.to.report: "del"
-    secondary.pwm.input: "data/subset-PWMs-E9.5-Forelimb-Jaspar-Posterior.txt"
-    secondary.pwm.minimum.score: 0.8
+    secondary.PWM.data: "data/subset-PWMs-E9.5-Forelimb-Jaspar-Posterior.txt"
+    secondary.PWM.minimum.score: 0.8
     secondary.minimum.binding.charge: 0.1
 assertions:
     jobStatus: success
