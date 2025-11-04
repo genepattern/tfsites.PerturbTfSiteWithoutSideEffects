@@ -23,8 +23,8 @@
         "parameters": [
             "secondary.affinity.information",
             "secondary.affinity.files",
-            "secondary.pwm.data",
-            "secondary.pwm.minimum.score",
+            "secondary.PWM.data",
+            "secondary.PWM.minimum.score",
             "secondary.minimum.binding.charge"
         ]
     }
