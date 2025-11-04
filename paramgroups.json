@@ -5,15 +5,15 @@
         "hidden": false,
         "parameters": [
             "DNA.sequence.to.annotate",
-            "TF.name",
+            "primary.TF.name",
             "primary.core.binding.site.definition",
  	        "primary.affinity.reference.data",
 	    
             "primary.PWM.data",
           "primary.PWM.minimum.score",
           "primary.SNV.effect.type.to.report",
-          "primary.affinity.optimization.threshold",
-          "primary.suboptimization.threshold"
+          "affinity.optimization.threshold",
+          "affinity.reduction.threshold"
         ]
     },
     {
@@ -23,7 +23,7 @@
         "parameters": [
             "secondary.affinity.information",
             "secondary.affinity.files",
-            "secondary.pwm.input",
+            "secondary.pwm.data",
             "secondary.pwm.minimum.score",
             "secondary.minimum.binding.charge"
         ]
