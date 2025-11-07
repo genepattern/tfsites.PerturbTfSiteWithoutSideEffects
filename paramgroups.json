@@ -27,5 +27,33 @@
             "secondary.PWM.minimum.score",
             "secondary.minimum.binding.charge"
         ]
+    },
+     {
+        "name": "Primary Motif Database Parameters",
+        "description": "Optional parameters for providing a primary motif database or generating motif database from JASPAR or HOMOCO data",
+        "hidden": true,
+        "parameters": [
+            "primary.motif.input.file",
+            "primary.motif.input.format",
+            "primary.motif.filter.keywords",
+            "primary.motif.use.pseudocounts",
+            "primary.motif.background.frequencies",
+            "primary.motif.output.name"
+        ]
+    },
+     {
+        "name": "Secondary Motif Database Parameters",
+        "description": "Optional parameters for providing a secondary motif database or generating motif database from JASPAR or HOMOCO data",
+        "hidden": true,
+        "parameters": [
+            "secondary.motif.input.file",
+            "secondary.motif.input.format",
+            "secondary.motif.filter.keywords",
+            "secondary.motif.use.pseudocounts",
+            "secondary.motif.background.frequencies",
+            "secondary.motif.output.name"
+        ]
     }
+
+
 ]
