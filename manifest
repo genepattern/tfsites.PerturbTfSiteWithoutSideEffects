@@ -288,7 +288,7 @@ p19_value=
 
 p20_MODE=
 p20_TYPE=TEXT
-p20_default_value=generated_motif_database.txt
+p20_default_value=generated_primary_motif_database.txt
 p20_description=Name of primary motif database output file. If not specified, temporary file will be created.
 p20_fileFormat=
 p20_flag=
@@ -372,7 +372,7 @@ p25_value=
 
 p26_MODE=
 p26_TYPE=TEXT
-p26_default_value=generated_motif_database.txt
+p26_default_value=generated_secondary_motif_database.txt
 p26_description=Name of secondary motif database output file. If not specified, temporary file will be created.
 p26_fileFormat=
 p26_flag=
