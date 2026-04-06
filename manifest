@@ -10,7 +10,7 @@ description=PerturbTfSiteWithoutSideEffects reports the secondary effects of mut
 documentationUrl=https://genepattern.github.io/tfsites.PerturbTfSiteWithoutSideEffects/v1/
 fileFormat=
 job.cpuCount=
-job.docker.image=genepattern/tfsites\:17.1.3
+job.docker.image=genepattern/tfsites\:18.0
 language=any
 name=tfsites.PerturbTfSiteWithoutSideEffects
 os=any
@@ -389,5 +389,5 @@ src.repo=https://github.com/genepattern/tfsites.AnnotateAndVisualizeInSilicoSNVA
 taskDoc=
 taskType=Transcription factor analysis
 userid=ted
-version=Initial revision.
+version=Updated docker container version.
 
