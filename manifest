@@ -3,14 +3,14 @@
 JVMLevel=
 LSID=urn:lsid:genepattern.org:module.analysis:00443
 author=Joe Solvasson, modified into a GenePattern module as Ted Liefeld
-commandLine=python /build/tfsites-webportal/07-perturbTfSiteWithoutSideEffects/07-combined-generateMotifDatabase-and-perturbTfSiteWithoutSideEffects.py  -s <DNA.sequence.to.annotate>  -n <primary.TF.name> <primary.affinity.reference.data>  <primary.core.binding.site.definition> <primary.PWM.data>  <primary.PWM.minimum.score>    <primary.SNV.effect.type.to.report> <affinity.optimization.threshold> <affinity.reduction.threshold> <secondary.affinity.information> <secondary.affinity.files> <secondary.PWM.data> <secondary.PWM.minimum.score> <secondary.minimum.binding.charge> -d .  <primary.motif.input.file> <primary.motif.input.format>  <primary.motif.filter.keywords> <primary.motif.use.pseudocounts> <primary.motif.background.frequencies> <primary.motif.output.name>  <secondary.motif.input.file> <secondary.motif.input.format> <secondary.motif.use.pseudocounts> <secondary.motif.filter.keywords>  <secondary.motif.background.frequencies> <secondary.motif.output.name>
+commandLine=python /build/tfsites-webportal/07-perturbTfSiteWithoutSideEffects/07-combined-generateMotifDatabase-and-perturbTfSiteWithoutSideEffects.py  -s <DNA.sequence.to.annotate>  -n <primary.TF.name> <primary.affinity.reference.data>  <primary.core.binding.site.definition> <primary.PWM.data>  <primary.PWM.minimum.score>    <primary.SNV.effect.type.to.report> <affinity.optimization.threshold> <affinity.reduction.threshold> <secondary.affinity.information> <secondary.affinity.files> <secondary.PWM.data> <secondary.PWM.minimum.score> <secondary.minimum.binding.charge> -d .  <primary.motif.input.file> <primary.motif.input.format>  <primary.motif.filter.keywords> <primary.motif.use.pseudocounts> <primary.motif.background.frequencies> <primary.motif.output.name> <primary.motif.exact.match>  <secondary.motif.input.file> <secondary.motif.input.format> <secondary.motif.use.pseudocounts> <secondary.motif.filter.keywords>  <secondary.motif.background.frequencies> <secondary.motif.output.name> <secondary.motif.exact.match>
 
 cpuType=any
 description=PerturbTfSiteWithoutSideEffects reports the secondary effects of mutations.
 documentationUrl=https://genepattern.github.io/tfsites.PerturbTfSiteWithoutSideEffects/v1/
 fileFormat=
 job.cpuCount=
-job.docker.image=genepattern/tfsites\:18.0
+job.docker.image=genepattern/tfsites\:19.0
 language=any
 name=tfsites.PerturbTfSiteWithoutSideEffects
 os=any
@@ -378,9 +378,37 @@ p26_name=secondary.motif.output.name
 p26_numValues=0..1
 p26_optional=on
 p26_prefix=
-p26_prefix_when_specified=--motif_output_name2  
+p26_prefix_when_specified=--motif_output_name2   
 p26_type=java.lang.String
 p26_value=
+
+p27_MODE=
+p27_TYPE=TEXT
+p27_default_value=FALSE
+p27_description=Require the exact keyword to match for the primary motif database. If false, TF families can be searched more easily (e.g. "ETS" will return "ETS1", "ets2", etc).
+p27_fileFormat=
+p27_flag=
+p27_name=primary.motif.exact.match
+p27_numValues=0..1
+p27_optional=on
+p27_prefix=
+p27_prefix_when_specified=--motif_exact_match   
+p27_type=java.lang.String
+p27_value=FALSE\=FALSE;TRUE\=TRUE
+
+p28_MODE=
+p28_TYPE=TEXT
+p28_default_value=FALSE
+p28_description=Require the exact keyword to match for the secondary motif database. If false, TF families can be searched more easily (e.g. "ETS" will return "ETS1", "ets2", etc).
+p28_fileFormat=
+p28_flag=
+p28_name=secondary.motif.exact.match
+p28_numValues=0..1
+p28_optional=on
+p28_prefix=
+p28_prefix_when_specified=--motif_exact_match2   
+p28_type=java.lang.String
+p28_value=FALSE\=FALSE;TRUE\=TRUE
 
 
 privacy=public

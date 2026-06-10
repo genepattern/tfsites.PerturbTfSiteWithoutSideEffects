@@ -38,7 +38,8 @@
             "primary.motif.filter.keywords",
             "primary.motif.use.pseudocounts",
             "primary.motif.background.frequencies",
-            "primary.motif.output.name"
+            "primary.motif.output.name",
+            "primary.motif.exact.match"
         ]
     },
      {
@@ -51,7 +52,8 @@
             "secondary.motif.filter.keywords",
             "secondary.motif.use.pseudocounts",
             "secondary.motif.background.frequencies",
-            "secondary.motif.output.name"
+            "secondary.motif.output.name",
+            "secondary.motif.exact.match"
         ]
     }
 
