@@ -258,7 +258,7 @@ p17_value=
 
 p18_MODE=
 p18_TYPE=TEXT
-p18_default_value=False
+p18_default_value=FALSE
 p18_description=Whether to use pseudocounts when generating primary motif database.
 p18_fileFormat=
 p18_flag=
@@ -268,7 +268,7 @@ p18_optional=on
 p18_prefix=
 p18_prefix_when_specified=--motif_use_pseudocounts  
 p18_type=java.lang.String
-p18_value=True;False
+p18_value=TRUE;FALSE
 
 p19_MODE=
 p19_TYPE=TEXT
@@ -342,7 +342,7 @@ p23_value=
 
 p24_MODE=
 p24_TYPE=TEXT
-p24_default_value=False
+p24_default_value=FALSE
 p24_description=Whether to use pseudocounts when generating secondary motif database.
 p24_fileFormat=
 p24_flag=
@@ -352,7 +352,7 @@ p24_optional=on
 p24_prefix=
 p24_prefix_when_specified=--motif_use_pseudocounts2  
 p24_type=java.lang.String
-p24_value=True;False
+p24_value=TRUE;FALSE
 
 p25_MODE=
 p25_TYPE=TEXT
